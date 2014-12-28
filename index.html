@@ -18,7 +18,7 @@
   var renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
-  
+
   var light = new THREE.DirectionalLight(0xffffff, 0.5);
   light.position.set(0, 0, 1);
   scene.add(light);
@@ -88,13 +88,13 @@
   var mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
   camera.position.z = 5;
-  
+
   function render() {
     mesh.rotation.x += 0.01;
     mesh.rotation.y += 0.01;
     requestAnimationFrame(render);
     renderer.render(scene, camera);
   }
-  
+
   render();
 </script>
