@@ -1,0 +1,8 @@
+{
+  "name": "tetra",
+  "version": "0.1.0",
+  "devDependencies": {
+    "express": "^4.10.6",
+    "gulp": "^3.8.10"
+  }
+}
