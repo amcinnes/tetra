@@ -133,6 +133,10 @@ function update() {
   if (keysDown[40]) camera.rotation.x -= 0.01;
   if (keysDown[37]) camera.rotation.y += 0.01;
   if (keysDown[39]) camera.rotation.y -= 0.01;
+  while (camera.rotation.y < 0) camera.rotation.y += 2 * Math.PI;
+  while (camera.rotation.y >= 2 * Math.PI) camera.rotation.y -= 2 * Math.PI;
+  if (camera.rotation.x > Math.PI / 2) camera.rotation.x = Math.PI / 2;
+  if (camera.rotation.x < -Math.PI / 2) camera.rotation.x = -Math.PI / 2;
 }
 
 function render() {
