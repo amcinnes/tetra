@@ -1,14 +1,14 @@
 function skybox_mesh() {
   var g = new THREE.Geometry();
   g.vertices = [
-    new THREE.Vector3(100, 100, 100),
-    new THREE.Vector3(100, 100, -100),
-    new THREE.Vector3(100, -100, 100),
-    new THREE.Vector3(100, -100, -100),
-    new THREE.Vector3(-100, 100, 100),
-    new THREE.Vector3(-100, 100, -100),
-    new THREE.Vector3(-100, -100, 100),
-    new THREE.Vector3(-100, -100, -100)
+    new THREE.Vector3(500, 500, 500),
+    new THREE.Vector3(500, 500, -500),
+    new THREE.Vector3(500, -500, 500),
+    new THREE.Vector3(500, -500, -500),
+    new THREE.Vector3(-500, 500, 500),
+    new THREE.Vector3(-500, 500, -500),
+    new THREE.Vector3(-500, -500, 500),
+    new THREE.Vector3(-500, -500, -500)
   ];
   g.faces = [
     new THREE.Face3(0, 1, 2), new THREE.Face3(2, 1, 3), // Right
@@ -107,7 +107,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 var scene = new THREE.Scene();
-scene.add(skybox_mesh());
+var skybox = skybox_mesh()
+scene.add(skybox);
 scene.add(object_mesh());
 var light = new THREE.DirectionalLight(0xffffff, 0.5);
 light.position.set(0, 0, 1);
@@ -135,14 +136,35 @@ $(window).resize(function() {
 });
 
 function update() {
-  if (keysDown[38]) camera.rotation.x += 0.01;
-  if (keysDown[40]) camera.rotation.x -= 0.01;
-  if (keysDown[37]) camera.rotation.y += 0.01;
-  if (keysDown[39]) camera.rotation.y -= 0.01;
+  if (keysDown[38]) camera.rotation.x += 0.01; // Up
+  if (keysDown[40]) camera.rotation.x -= 0.01; // Down
+  if (keysDown[37]) camera.rotation.y += 0.01; // Left
+  if (keysDown[39]) camera.rotation.y -= 0.01; // Right
   while (camera.rotation.y < 0) camera.rotation.y += 2 * Math.PI;
   while (camera.rotation.y >= 2 * Math.PI) camera.rotation.y -= 2 * Math.PI;
   if (camera.rotation.x > Math.PI / 2) camera.rotation.x = Math.PI / 2;
   if (camera.rotation.x < -Math.PI / 2) camera.rotation.x = -Math.PI / 2;
+
+  if (keysDown[87]) { // W
+    camera.position.x -= 0.1 * Math.sin(camera.rotation.y);
+    camera.position.z -= 0.1 * Math.cos(camera.rotation.y);
+  }
+  if (keysDown[83]) { // S
+    camera.position.x += 0.1 * Math.sin(camera.rotation.y);
+    camera.position.z += 0.1 * Math.cos(camera.rotation.y);
+  }
+  if (keysDown[65]) { // A
+    camera.position.x -= 0.1 * Math.cos(camera.rotation.y);
+    camera.position.z += 0.1 * Math.sin(camera.rotation.y);
+  }
+  if (keysDown[68]) { // D
+    camera.position.x += 0.1 * Math.cos(camera.rotation.y);
+    camera.position.z -= 0.1 * Math.sin(camera.rotation.y);
+  }
+
+  skybox.position.x = camera.position.x;
+  skybox.position.y = camera.position.y;
+  skybox.position.z = camera.position.z;
 }
 
 function render() {
