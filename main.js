@@ -4,6 +4,60 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+var skybox_geometry = new THREE.Geometry();
+skybox_geometry.vertices = [
+  new THREE.Vector3(100, 100, 100),
+  new THREE.Vector3(100, 100, -100),
+  new THREE.Vector3(100, -100, 100),
+  new THREE.Vector3(100, -100, -100),
+  new THREE.Vector3(-100, 100, 100),
+  new THREE.Vector3(-100, 100, -100),
+  new THREE.Vector3(-100, -100, 100),
+  new THREE.Vector3(-100, -100, -100)
+];
+skybox_geometry.faces = [
+  new THREE.Face3(0, 1, 2),
+  new THREE.Face3(2, 1, 3),
+
+  new THREE.Face3(0, 4, 1),
+  new THREE.Face3(1, 4, 5),
+
+  new THREE.Face3(1, 5, 3),
+  new THREE.Face3(3, 5, 7),
+
+  new THREE.Face3(2, 3, 6),
+  new THREE.Face3(6, 3, 7),
+
+  new THREE.Face3(0, 2, 4),
+  new THREE.Face3(4, 2, 6),
+
+  new THREE.Face3(4, 6, 5),
+  new THREE.Face3(5, 6, 7)
+];
+skybox_geometry.faceVertexUvs = [[
+  [new THREE.Vector2(1, 2/3), new THREE.Vector2(3/4, 2/3), new THREE.Vector2(1, 1/3)],
+  [new THREE.Vector2(1, 1/3), new THREE.Vector2(3/4, 2/3), new THREE.Vector2(3/4, 1/3)],
+  [new THREE.Vector2(1/4, 1), new THREE.Vector2(1/4, 2/3), new THREE.Vector2(2/4, 1)],
+  [new THREE.Vector2(2/4, 1), new THREE.Vector2(1/4, 2/3), new THREE.Vector2(2/4, 2/3)],
+  [new THREE.Vector2(3/4, 2/3), new THREE.Vector2(2/4, 2/3), new THREE.Vector2(3/4, 1/3)],
+  [new THREE.Vector2(3/4, 1/3), new THREE.Vector2(2/4, 2/3), new THREE.Vector2(2/4, 1/3)],
+
+  [new THREE.Vector2(1/4, 0), new THREE.Vector2(2/4, 0), new THREE.Vector2(1/4, 1/3)],
+  [new THREE.Vector2(1/4, 1/3), new THREE.Vector2(2/4, 0), new THREE.Vector2(2/4, 1/3)],
+  [new THREE.Vector2(0, 2/3), new THREE.Vector2(0, 1/3), new THREE.Vector2(1/4, 2/3)],
+  [new THREE.Vector2(1/4, 2/3), new THREE.Vector2(0, 1/3), new THREE.Vector2(1/4, 1/3)],
+  [new THREE.Vector2(1/4, 2/3), new THREE.Vector2(1/4, 1/3), new THREE.Vector2(2/4, 2/3)],
+  [new THREE.Vector2(2/4, 2/3), new THREE.Vector2(1/4, 1/3), new THREE.Vector2(2/4, 1/3)]
+]];
+
+var skybox_texture = THREE.ImageUtils.loadTexture("skybox.png");
+var skybox_material = new THREE.MeshBasicMaterial({
+  //color: 0x00ff00,
+  map: skybox_texture
+});
+var skybox_mesh = new THREE.Mesh(skybox_geometry, skybox_material);
+scene.add(skybox_mesh);
+
 var light = new THREE.DirectionalLight(0xffffff, 0.5);
 light.position.set(0, 0, 1);
 scene.add(light);
@@ -72,6 +126,7 @@ var material = new THREE.MeshPhongMaterial({
 });
 var mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
+camera.rotation.order = 'YXZ';
 camera.position.z = 5;
 
 var nextUpdate = null;
