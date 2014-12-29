@@ -128,6 +128,12 @@ $(document).keyup(function(e) {
   delete keysDown[e.which];
 });
 
+$(window).resize(function() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+});
+
 function update() {
   if (keysDown[38]) camera.rotation.x += 0.01;
   if (keysDown[40]) camera.rotation.x -= 0.01;
