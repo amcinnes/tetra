@@ -74,11 +74,36 @@ var mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 camera.position.z = 5;
 
-function render() {
-  mesh.rotation.x += 0.01;
-  mesh.rotation.y += 0.01;
-  requestAnimationFrame(render);
+var nextUpdate = null;
+var keysDown = {};
+
+$(document).keydown(function(e) {
+    keysDown[e.which] = true;
+});
+
+$(document).keyup(function(e) {
+  delete keysDown[e.which];
+});
+
+function update() {
+  if (keysDown[38]) camera.rotation.x += 0.01;
+  if (keysDown[40]) camera.rotation.x -= 0.01;
+  if (keysDown[37]) camera.rotation.y += 0.01;
+  if (keysDown[39]) camera.rotation.y -= 0.01;
+}
+
+function render(timestamp) {
+  if (nextUpdate == null) {
+    nextUpdate = timestamp;
+  }
+
+  while (nextUpdate <= timestamp) {
+    update();
+    nextUpdate += 10;
+  }
+
   renderer.render(scene, camera);
+  requestAnimationFrame(render);
 }
 
 render();
