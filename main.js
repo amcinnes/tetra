@@ -37,7 +37,7 @@ function skybox_mesh() {
   return new THREE.Mesh(g, m);
 }
 
-function object_mesh() {
+var tetra_geometry = (function() {
   var g = new THREE.Geometry();
   g.vertices = [
     new THREE.Vector3(2/3, 2/3, 2/3),
@@ -98,8 +98,12 @@ function object_mesh() {
     new THREE.Face3(6, 15, 7)
   ];
   g.computeFaceNormals();
-  var m = new THREE.MeshPhongMaterial({color: 0x00ff00});
-  return new THREE.Mesh(g, m);
+  return g;
+})();
+
+function object_mesh(c) {
+  var m = new THREE.MeshPhongMaterial({color: c});
+  return new THREE.Mesh(tetra_geometry, m);
 }
 
 var renderer = new THREE.WebGLRenderer();
@@ -109,13 +113,31 @@ document.body.appendChild(renderer.domElement);
 var scene = new THREE.Scene();
 var skybox = skybox_mesh()
 scene.add(skybox);
-scene.add(object_mesh());
+
+for (var y = -5; y < 1; y++) {
+  for (var x = -10; x < 10; x++) {
+    for (var z = -10; z < 10; z++) {
+      var m = object_mesh((y & 1) ? 0x0000ff : 0xffff00);
+      m.position.x = 4/3 * x - 4/3 * z;
+      m.position.z = 4/3 * x + 4/3 * z;
+      m.position.y = 2/3 * y;
+      if ((y & 1) == 1) {
+        m.position.x += 4/3;
+        m.rotation.y = Math.PI / 2;
+      }
+      scene.add(m);
+    }
+  }
+}
+
 var light = new THREE.DirectionalLight(0xffffff, 0.5);
-light.position.set(0, 0, 1);
+light.position.set(-0.4, 0.2, 1);
 scene.add(light);
+scene.add(new THREE.AmbientLight(0x111111));
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.rotation.order = 'YXZ';
+camera.position.y = 2.1;
 camera.position.z = 5;
 
 var nextUpdate = null;
