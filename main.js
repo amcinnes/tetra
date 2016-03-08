@@ -117,7 +117,7 @@ scene.add(skybox);
 for (var y = -5; y < 1; y++) {
   for (var x = -10; x < 10; x++) {
     for (var z = -10; z < 10; z++) {
-      var m = object_mesh((y & 1) ? 0x0000ff : 0xffff00);
+      var m = object_mesh(0x999999);
       m.position.x = 4/3 * x - 4/3 * z;
       m.position.z = 4/3 * x + 4/3 * z;
       m.position.y = 2/3 * y;
@@ -130,8 +130,8 @@ for (var y = -5; y < 1; y++) {
   }
 }
 
-var light = new THREE.DirectionalLight(0xffffff, 0.5);
-light.position.set(-0.4, 0.2, 1);
+var light = new THREE.DirectionalLight(0xffffff, 0.8);
+light.position.set(-0.1, 1, 0.1);
 scene.add(light);
 scene.add(new THREE.AmbientLight(0x111111));
 
