@@ -1,17 +1,21 @@
-My idea is something like Minecraft but using [https://en.wikipedia.org/wiki/Triakis_truncated_tetrahedron](triakis truncated tetrahedra) instead of cubes. It's not quite there yet.
+My idea is something like Minecraft but using [triakis truncated tetrahedra](https://en.wikipedia.org/wiki/Triakis_truncated_tetrahedron) instead of cubes. It's not quite there yet.
 
 # Starting the server:
+
+- Start the server
 
     npm install -g gulp
     gulp
 
-visit http://localhost:4000/.
+- visit http://localhost:4000/
 
 Alternatively, using Python instead of node:
 
+- Start the server
+
     python -m SimpleHTTPServer
 
-visit http://localhost:8000/.
+- visit http://localhost:8000/
 
 # Using the app:
 
